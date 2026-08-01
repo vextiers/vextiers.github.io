@@ -27,7 +27,6 @@
             letter-spacing: 2px;
         }
 
-        /* MODE BAR */
         .modeBar {
             width: 100%;
             display: flex;
@@ -35,7 +34,6 @@
             padding: 0;
         }
 
-        /* PILL TOP, FLAT BOTTOM BUTTONS */
         .modeButton {
             flex: 1;
             height: 110px;
@@ -138,9 +136,10 @@
             gap: 10px;
         }
 
+        /* FIXED: UNSQUISHED ICONS */
         .modeTagIcon {
-            width: 32px;
             height: 32px;
+            width: auto;
             image-rendering: pixelated;
         }
     </style>
@@ -152,7 +151,6 @@
     <h1>VEXTIERS</h1>
 </header>
 
-<!-- MODE BAR -->
 <div class="modeBar">
     <div class="modeButton" data-mode="overall">
         <img class="modeIcon" src="icons/overall.png">
