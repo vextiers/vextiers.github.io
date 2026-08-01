@@ -16,15 +16,15 @@
         header {
             text-align: center;
             padding: 40px 20px;
-            border-bottom: none;
             background: #0f0f0f;
         }
 
-        h1 {
-            font-size: 52px;
-            color: #7A00FF;
-            text-shadow: 0 0 22px #7A00FF;
-            letter-spacing: 2px;
+        /* VEXTIERS LOGO */
+        .vexLogo {
+            width: 220px;
+            height: auto;
+            image-rendering: pixelated;
+            filter: drop-shadow(0 0 25px #7A00FFAA);
         }
 
         /* MODE BAR */
@@ -35,7 +35,6 @@
             padding: 0;
         }
 
-        /* PILL TOP, FLAT BOTTOM BUTTONS */
         .modeButton {
             flex: 1;
             height: 110px;
@@ -58,7 +57,6 @@
             box-shadow: 0 0 25px #7A00FFAA;
         }
 
-        /* BUTTON ICONS */
         .modeIcon {
             height: 48px;
             width: auto;
@@ -119,12 +117,12 @@
             border: 2px solid #7A00FF;
         }
 
-        /* FIXED: NO SCROLLBAR */
+        /* NO SCROLLBAR */
         .modeBlock {
             display: flex;
             gap: 12px;
-            flex-wrap: wrap;      /* wrap instead of scroll */
-            overflow: hidden;     /* no scrollbar */
+            flex-wrap: wrap;
+            overflow: hidden;
             padding-left: 20px;
         }
 
@@ -162,7 +160,7 @@
 <body>
 
 <header>
-    <h1>VEXTIERS</h1>
+    <img src="icons/vex.png" alt="VEXTIERS Logo" class="vexLogo">
 </header>
 
 <!-- MODE BAR -->
@@ -260,7 +258,6 @@ function getSkinURL(player) {
 }
 
 function loadRankings(selectedMode = "overall") {
-
     document.querySelectorAll('.modeButton').forEach(btn => {
         btn.classList.remove("active");
         if (btn.dataset.mode === selectedMode) {
