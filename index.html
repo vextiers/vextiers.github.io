@@ -15,39 +15,40 @@
 
         header {
             text-align: center;
-            padding: 50px 20px;
+            padding: 25px 20px; /* moved up */
             background: #0f0f0f;
         }
 
-        /* VEXTIERS LOGO — NO GLOW */
+        /* VEXTIERS LOGO — smaller + higher */
         .vexLogo {
-            width: 300px;
+            width: 240px; /* smaller */
             height: auto;
             image-rendering: pixelated;
             filter: none;
+            margin-top: -10px; /* pushes it higher */
         }
 
-        /* MODE BAR */
+        /* MODE BAR — moved up closer to logo */
         .modeBar {
             width: 100%;
             display: flex;
-            margin: 0;
+            margin-top: 10px; /* reduced gap */
             padding: 0;
         }
 
         .modeButton {
             flex: 1;
-            height: 110px;
+            height: 100px; /* slightly smaller */
             background: #111;
             border: 2px solid #7A00FF;
             border-bottom: 2px solid #7A00FF;
-            border-radius: 22px 22px 0 0;
+            border-radius: 18px 18px 0 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-end;
             cursor: pointer;
-            padding-bottom: 10px;
+            padding-bottom: 8px;
             transition: 0.15s;
         }
 
@@ -58,37 +59,37 @@
         }
 
         .modeIcon {
-            height: 48px;
+            height: 42px;
             width: auto;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             image-rendering: pixelated;
         }
 
         .modeText {
-            font-size: 18px;
+            font-size: 17px;
             color: #e0e0e0;
             text-align: center;
         }
 
         .leaderboard {
             width: 90%;
-            margin: 40px auto;
+            margin: 30px auto; /* moved up */
         }
 
         .playerRow {
             display: flex;
             align-items: center;
             background: #111;
-            padding: 28px;
-            margin-bottom: 20px;
+            padding: 24px;
+            margin-bottom: 18px;
             border-radius: 14px;
             border: 2px solid #7A00FF;
             box-shadow: 0 0 28px #7A00FF55;
         }
 
         .rank {
-            width: 80px;
-            font-size: 36px;
+            width: 70px;
+            font-size: 34px;
             font-weight: bold;
             color: #7A00FF;
             text-shadow: 0 0 12px #7A00FF;
@@ -97,20 +98,20 @@
 
         .nameBlock {
             flex: 1;
-            padding-left: 25px;
+            padding-left: 20px;
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
         }
 
         .playerName {
-            font-size: 32px;
+            font-size: 30px;
             font-weight: bold;
         }
 
         .skinHead {
-            width: 64px;
-            height: 64px;
+            width: 60px;
+            height: 60px;
             border-radius: 8px;
             image-rendering: pixelated;
             box-shadow: 0 0 12px #7A00FFAA;
@@ -119,15 +120,15 @@
 
         .modeBlock {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
             overflow: hidden;
-            padding-left: 20px;
+            padding-left: 15px;
         }
 
         .modeTag {
-            width: 70px;
-            height: 70px;
+            width: 65px;
+            height: 65px;
             background: #222;
             border-radius: 10px;
             border: 1px solid #7A00FF;
@@ -141,14 +142,14 @@
         }
 
         .modeTagIcon {
-            height: 28px;
+            height: 26px;
             width: auto;
             image-rendering: pixelated;
             margin-bottom: 4px;
         }
 
         .modeTagText {
-            font-size: 16px;
+            font-size: 15px;
             color: #e0e0e0;
             line-height: 1;
         }
