@@ -16,7 +16,7 @@
         header {
             text-align: center;
             padding: 40px 20px;
-            border-bottom: none; /* no purple bar */
+            border-bottom: none;
             background: #0f0f0f;
         }
 
@@ -41,8 +41,8 @@
             height: 110px;
             background: #111;
             border: 2px solid #7A00FF;
-            border-bottom: 2px solid #7A00FF; /* bottom line restored */
-            border-radius: 22px 22px 0 0; /* rounded top only */
+            border-bottom: 2px solid #7A00FF;
+            border-radius: 22px 22px 0 0;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -58,10 +58,12 @@
             box-shadow: 0 0 25px #7A00FFAA;
         }
 
+        /* PNG ICONS */
         .modeIcon {
             width: 48px;
             height: 48px;
             margin-bottom: 6px;
+            image-rendering: pixelated;
         }
 
         .modeText {
@@ -144,15 +146,50 @@
 
 <!-- MODE BAR -->
 <div class="modeBar">
-    <div class="modeButton" data-mode="overall"><div class="modeIcon"></div><div class="modeText">Overall</div></div>
-    <div class="modeButton" data-mode="crystal"><div class="modeIcon"></div><div class="modeText">Crystal</div></div>
-    <div class="modeButton" data-mode="mace"><div class="modeIcon"></div><div class="modeText">Mace</div></div>
-    <div class="modeButton" data-mode="sword"><div class="modeIcon"></div><div class="modeText">Sword</div></div>
-    <div class="modeButton" data-mode="axe"><div class="modeIcon"></div><div class="modeText">Axe</div></div>
-    <div class="modeButton" data-mode="uhc"><div class="modeIcon"></div><div class="modeText">UHC</div></div>
-    <div class="modeButton" data-mode="smp"><div class="modeIcon"></div><div class="modeText">SMP</div></div>
-    <div class="modeButton" data-mode="diamond_pot"><div class="modeIcon"></div><div class="modeText">Pot</div></div>
-    <div class="modeButton" data-mode="netherite_pot"><div class="modeIcon"></div><div class="modeText">Neth Pot</div></div>
+    <div class="modeButton" data-mode="overall">
+        <img class="modeIcon" src="icons/overall.png">
+        <div class="modeText">Overall</div>
+    </div>
+
+    <div class="modeButton" data-mode="crystal">
+        <img class="modeIcon" src="icons/crystal.png">
+        <div class="modeText">Crystal</div>
+    </div>
+
+    <div class="modeButton" data-mode="mace">
+        <img class="modeIcon" src="icons/mace.png">
+        <div class="modeText">Mace</div>
+    </div>
+
+    <div class="modeButton" data-mode="sword">
+        <img class="modeIcon" src="icons/sword.png">
+        <div class="modeText">Sword</div>
+    </div>
+
+    <div class="modeButton" data-mode="axe">
+        <img class="modeIcon" src="icons/axe.png">
+        <div class="modeText">Axe</div>
+    </div>
+
+    <div class="modeButton" data-mode="uhc">
+        <img class="modeIcon" src="icons/uhc.png">
+        <div class="modeText">UHC</div>
+    </div>
+
+    <div class="modeButton" data-mode="smp">
+        <img class="modeIcon" src="icons/smp.png">
+        <div class="modeText">SMP</div>
+    </div>
+
+    <div class="modeButton" data-mode="diamond_pot">
+        <img class="modeIcon" src="icons/pot.png">
+        <div class="modeText">Pot</div>
+    </div>
+
+    <div class="modeButton" data-mode="netherite_pot">
+        <img class="modeIcon" src="icons/neth_pot.png">
+        <div class="modeText">Neth Pot</div>
+    </div>
 </div>
 
 <div class="leaderboard" id="leaderboard"></div>
