@@ -163,6 +163,21 @@ function loadRankings() {
                 const row = document.createElement("div");
                 row.className = "playerRow";
 
+                let modeDisplay = "";
+
+                if (selectedMode === "overall") {
+                    modeDisplay = Object.entries(p.modes)
+                        .filter(([mode, tier]) => tier !== null)
+                        .map(([mode, tier]) => `
+                            <div class="modeTag">${mode}: ${tier}</div>
+                        `)
+                        .join("");
+                } else {
+                    modeDisplay = `
+                        <div class="modeTag">${selectedMode}: ${p.modes[selectedMode]}</div>
+                    `;
+                }
+
                 row.innerHTML = `
                     <div class="rank">#${index + 1}</div>
 
@@ -171,11 +186,7 @@ function loadRankings() {
                     </div>
 
                     <div class="modeBlock">
-                        ${Object.entries(p.modes)
-                            .map(([mode, tier]) => `
-                                <div class="modeTag">${mode}: ${tier ?? "N/A"}</div>
-                            `)
-                            .join("")}
+                        ${modeDisplay}
                     </div>
                 `;
 
