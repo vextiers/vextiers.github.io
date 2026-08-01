@@ -21,7 +21,7 @@
 
         .box {
             background: #111;
-            width: 50%;
+            width: 60%;
             margin: 40px auto;
             padding: 25px;
             border-radius: 14px;
@@ -47,7 +47,7 @@
         }
 
         textarea {
-            height: 180px;
+            height: 200px;
             resize: none;
             font-family: monospace;
             font-size: 16px;
@@ -81,6 +81,7 @@
 
 <h1>VEXTIERS Admin</h1>
 
+<!-- ACCESS GATE -->
 <div class="box" id="gate">
     <label>Enter access code</label>
     <input id="codeInput" type="password" placeholder="Access code">
@@ -88,29 +89,15 @@
     <div id="status"></div>
 </div>
 
+<!-- ADMIN PANEL -->
 <div class="box" id="panel" style="display:none;">
+
     <label>Player Name</label>
     <input id="playerName" type="text">
 
-    <label>Mode</label>
-    <select id="mode">
-        <option value="mace">Mace</option>
-        <option value="crystal">Crystal</option>
-        <option value="sword">Sword</option>
-        <option value="bow">Bow</option>
-    </select>
+    <label>Mode Tiers</label>
 
-    <label>Tier</label>
-    <select id="tier">
-        <option value="HT1">HT1</option>
-        <option value="HT2">HT2</option>
-        <option value="HT3">HT3</option>
-        <option value="LT1">LT1</option>
-        <option value="LT2">LT2</option>
-        <option value="LT3">LT3</option>
-        <option value="LT4">LT4</option>
-        <option value="LT5">LT5</option>
-    </select>
+    <div id="modeInputs"></div>
 
     <button onclick="generateJSON()">Generate JSON</button>
 
@@ -121,6 +108,29 @@
 <script>
 const ACCESS_CODE = "052601";
 
+const modes = [
+    "vanilla",
+    "crystal",
+    "mace",
+    "diamond_pot",
+    "netherite_pot",
+    "uhc",
+    "smp",
+    "sword",
+    "axe"
+];
+
+const tierValues = {
+    "HT1": 10,
+    "HT2": 9,
+    "HT3": 8,
+    "LT1": 7,
+    "LT2": 6,
+    "LT3": 5,
+    "LT4": 4,
+    "LT5": 3
+};
+
 function checkCode() {
     const input = document.getElementById("codeInput").value;
     const status = document.getElementById("status");
@@ -128,20 +138,68 @@ function checkCode() {
     if (input === ACCESS_CODE) {
         document.getElementById("gate").style.display = "none";
         document.getElementById("panel").style.display = "block";
+        loadModeInputs();
     } else {
         status.textContent = "Wrong code.";
     }
 }
 
+function loadModeInputs() {
+    const container = document.getElementById("modeInputs");
+    container.innerHTML = "";
+
+    modes.forEach(mode => {
+        container.innerHTML += `
+            <label>${mode.toUpperCase()}</label>
+            <select id="${mode}">
+                <option value="">Not Tested</option>
+                <option value="HT1">HT1</option>
+                <option value="HT2">HT2</option>
+                <option value="HT3">HT3</option>
+                <option value="LT1">LT1</option>
+                <option value="LT2">LT2</option>
+                <option value="LT3">LT3</option>
+                <option value="LT4">LT4</option>
+                <option value="LT5">LT5</option>
+            </select>
+        `;
+    });
+}
+
+function calculateOverallTier(modeData) {
+    let total = 0;
+    let count = 0;
+
+    for (const mode in modeData) {
+        const tier = modeData[mode];
+        if (tier) {
+            total += tierValues[tier];
+            count++;
+        }
+    }
+
+    if (count === 0) return "LT5";
+
+    const avg = Math.round(total / count);
+
+    return Object.keys(tierValues).find(key => tierValues[key] === avg);
+}
+
 function generateJSON() {
     const name = document.getElementById("playerName").value;
-    const mode = document.getElementById("mode").value;
-    const tier = document.getElementById("tier").value;
+
+    const modeData = {};
+    modes.forEach(mode => {
+        const tier = document.getElementById(mode).value || null;
+        modeData[mode] = tier;
+    });
+
+    const overallTier = calculateOverallTier(modeData);
 
     const payload = {
         name: name,
-        mode: mode,
-        tier: tier
+        tier: overallTier,
+        modes: modeData
     };
 
     document.getElementById("outputBox").value =

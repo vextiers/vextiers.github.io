@@ -1,0 +1,16 @@
+[
+    {
+        "name": "EXAMPLE",
+        "modes": {
+            "crystal": null,
+            "mace": null,
+            "diamond_pot": null,
+            "netherite_pot": null,
+            "uhc": null,
+            "smp": null,
+            "sword": null,
+            "axe": null
+        },
+        "overallTier": null
+    }
+]
