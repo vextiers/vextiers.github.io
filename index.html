@@ -28,20 +28,51 @@
             letter-spacing: 2px;
         }
 
-        .selectorBox {
-            width: 90%;
-            margin: 30px auto;
-            text-align: center;
+        /* FULL WIDTH MODE BAR */
+        .modeBar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 40px;
+            box-sizing: border-box;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 20px;
         }
 
-        select {
+        .modeButton {
+            flex: 1;
+            max-width: 120px;
+            min-width: 120px;
+            height: 120px;
             background: #111;
-            color: #e0e0e0;
-            padding: 14px;
-            font-size: 22px;
             border: 2px solid #7A00FF;
-            border-radius: 12px;
+            border-radius: 14px;
             box-shadow: 0 0 18px #7A00FF55;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            cursor: pointer;
+            padding-bottom: 10px;
+            transition: 0.15s;
+        }
+
+        .modeButton:hover {
+            background: #1a1a1a;
+            box-shadow: 0 0 25px #7A00FFAA;
+        }
+
+        .modeIcon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 6px;
+        }
+
+        .modeText {
+            font-size: 18px;
+            color: #e0e0e0;
+            text-align: center;
         }
 
         .leaderboard {
@@ -116,52 +147,76 @@
     <h1>VEXTIERS</h1>
 </header>
 
-<div class="selectorBox">
-    <select id="modeSelector">
-        <option value="overall">Overall Rankings</option>
-        <option value="crystal">Crystal</option>
-        <option value="mace">Mace</option>
-        <option value="diamond_pot">Diamond-Pot</option>
-        <option value="netherite_pot">Netherite-Pot</option>
-        <option value="uhc">UHC</option>
-        <option value="smp">SMP</option>
-        <option value="sword">Sword</option>
-        <option value="axe">Axe</option>
-    </select>
+<!-- FULL WIDTH MODE BAR -->
+<div class="modeBar">
+    <div class="modeButton" data-mode="overall">
+        <div class="modeIcon"></div>
+        <div class="modeText">Overall</div>
+    </div>
+
+    <div class="modeButton" data-mode="crystal">
+        <div class="modeIcon"></div>
+        <div class="modeText">Crystal</div>
+    </div>
+
+    <div class="modeButton" data-mode="mace">
+        <div class="modeIcon"></div>
+        <div class="modeText">Mace</div>
+    </div>
+
+    <div class="modeButton" data-mode="sword">
+        <div class="modeIcon"></div>
+        <div class="modeText">Sword</div>
+    </div>
+
+    <div class="modeButton" data-mode="axe">
+        <div class="modeIcon"></div>
+        <div class="modeText">Axe</div>
+    </div>
+
+    <div class="modeButton" data-mode="uhc">
+        <div class="modeIcon"></div>
+        <div class="modeText">UHC</div>
+    </div>
+
+    <div class="modeButton" data-mode="smp">
+        <div class="modeIcon"></div>
+        <div class="modeText">SMP</div>
+    </div>
+
+    <div class="modeButton" data-mode="diamond_pot">
+        <div class="modeIcon"></div>
+        <div class="modeText">Pot</div>
+    </div>
+
+    <div class="modeButton" data-mode="netherite_pot">
+        <div class="modeIcon"></div>
+        <div class="modeText">Neth Pot</div>
+    </div>
 </div>
 
 <div class="leaderboard" id="leaderboard"></div>
 
 <script>
-// tier mapping: LT5, HT5, LT4, HT4, LT3, HT3, LT2, HT2, LT1, HT1 (bottom → top)
+// tier mapping
 function tierToNumber(tier) {
     const map = {
-        "LT5": 1,
-        "HT5": 2,
-        "LT4": 3,
-        "HT4": 4,
-        "LT3": 5,
-        "HT3": 6,
-        "LT2": 7,
-        "HT2": 8,
-        "LT1": 9,
-        "HT1": 10
+        "LT5": 1, "HT5": 2,
+        "LT4": 3, "HT4": 4,
+        "LT3": 5, "HT3": 6,
+        "LT2": 7, "HT2": 8,
+        "LT1": 9, "HT1": 10
     };
     return map[tier] || null;
 }
 
 function numberToTier(num) {
     const map = {
-        1: "LT5",
-        2: "HT5",
-        3: "LT4",
-        4: "HT4",
-        5: "LT3",
-        6: "HT3",
-        7: "LT2",
-        8: "HT2",
-        9: "LT1",
-        10: "HT1"
+        1: "LT5", 2: "HT5",
+        3: "LT4", 4: "HT4",
+        5: "LT3", 6: "HT3",
+        7: "LT2", 8: "HT2",
+        9: "LT1", 10: "HT1"
     };
     return map[num] || "Unknown";
 }
@@ -183,17 +238,11 @@ function calculateAverageTier(modes) {
     return { total, count };
 }
 
-document.getElementById("modeSelector").addEventListener("change", () => {
-    loadRankings();
-});
-
 function getSkinURL(player) {
     return `https://mc-heads.net/avatar/${encodeURIComponent(player.name)}/64`;
 }
 
-function loadRankings() {
-    const selectedMode = document.getElementById("modeSelector").value;
-
+function loadRankings(selectedMode = "overall") {
     fetch("players.json")
         .then(res => res.json())
         .then(players => {
@@ -210,7 +259,6 @@ function loadRankings() {
             if (selectedMode !== "overall") {
                 filtered = players.filter(p => p.modes[selectedMode] !== null);
             } else {
-                // HIDE players with 0 tested modes
                 filtered = players.filter(p => p.testedModes > 0);
             }
 
@@ -266,6 +314,14 @@ function loadRankings() {
             });
         });
 }
+
+// Mode button click handling
+document.querySelectorAll('.modeButton').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const mode = btn.dataset.mode;
+        loadRankings(mode);
+    });
+});
 
 loadRankings();
 </script>
