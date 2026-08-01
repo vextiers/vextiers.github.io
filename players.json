@@ -15,8 +15,8 @@
     {
         "name": "PLAYER_2",
         "modes": {
-            "crystal": "null",
-            "mace": "null,
+            "crystal": null,
+            "mace": null,
             "diamond_pot": null,
             "netherite_pot": null,
             "uhc": null,
