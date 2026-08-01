@@ -1,14 +1,16 @@
-// Convert tier label → number
+// Convert tier label → number (BOTTOM → TOP: LT5, HT5, LT4, HT4, LT3, HT3, LT2, HT2, LT1, HT1)
 function tierToNumber(tier) {
     const map = {
-        "HT1": 10,
-        "HT2": 9,
-        "HT3": 8,
-        "LT1": 7,
-        "LT2": 6,
+        "LT5": 1,
+        "HT5": 2,
+        "LT4": 3,
+        "HT4": 4,
         "LT3": 5,
-        "LT4": 4,
-        "LT5": 3
+        "HT3": 6,
+        "LT2": 7,
+        "HT2": 8,
+        "LT1": 9,
+        "HT1": 10
     };
     return map[tier] || null;
 }
@@ -16,14 +18,16 @@ function tierToNumber(tier) {
 // Convert number → tier label
 function numberToTier(num) {
     const map = {
-        10: "HT1",
-        9: "HT2",
-        8: "HT3",
-        7: "LT1",
-        6: "LT2",
+        1: "LT5",
+        2: "HT5",
+        3: "LT4",
+        4: "HT4",
         5: "LT3",
-        4: "LT4",
-        3: "LT5"
+        6: "HT3",
+        7: "LT2",
+        8: "HT2",
+        9: "LT1",
+        10: "HT1"
     };
     return map[num] || "Unknown";
 }
@@ -46,41 +50,83 @@ function calculateAverageTier(modes) {
     return { total, count };
 }
 
-fetch("players.json")
-    .then(res => res.json())
-    .then(players => {
+// Load rankings (used by index.html)
+function loadRankings() {
+    const selectedMode = document.getElementById("modeSelector").value;
 
-        players.forEach(p => {
-            const { total, count } = calculateAverageTier(p.modes);
+    fetch("players.json")
+        .then(res => res.json())
+        .then(players => {
 
-            p.testedModes = count;
-            p.averageTierScore = count > 0 ? total / count : 0;
-            p.overallTier = numberToTier(Math.round(p.averageTierScore));
-        });
+            // Calculate stats for each player
+            players.forEach(p => {
+                const { total, count } = calculateAverageTier(p.modes);
+                p.testedModes = count;
+                p.averageTierScore = count > 0 ? total / count : 0;
+                p.overallTier = numberToTier(Math.round(p.averageTierScore));
+            });
 
-        // GLOBAL RANKING SYSTEM:
-        // 1. More tested modes = higher rank
-        // 2. Higher average tier score = higher rank
-        players.sort((a, b) => {
-            if (b.testedModes !== a.testedModes) {
-                return b.testedModes - a.testedModes;
+            let filtered = players;
+
+            // Mode-specific ranking
+            if (selectedMode !== "overall") {
+                filtered = players.filter(p => p.modes[selectedMode] !== null);
+
+                filtered.sort((a, b) => {
+                    return tierToNumber(b.modes[selectedMode]) - tierToNumber(a.modes[selectedMode]);
+                });
             }
-            return b.averageTierScore - a.averageTierScore;
-        });
 
-        const list = document.getElementById("overallList");
+            // Overall ranking
+            else {
+                filtered.sort((a, b) => {
+                    if (b.testedModes !== a.testedModes) {
+                        return b.testedModes - a.testedModes;
+                    }
+                    return b.averageTierScore - a.averageTierScore;
+                });
+            }
 
-        players.forEach((p, index) => {
-            const div = document.createElement("div");
-            div.className = "player";
-            div.innerHTML = `
-                #${index + 1} — <strong>${p.name}</strong><br>
-                Overall Tier: ${p.overallTier}<br>
-                Tested Modes: ${p.testedModes}<br>
-                Modes: ${Object.entries(p.modes)
-                    .map(([mode, tier]) => `${mode}: ${tier ?? "N/A"}`)
-                    .join(" • ")}
-            `;
-            list.appendChild(div);
+            const board = document.getElementById("leaderboard");
+            board.innerHTML = "";
+
+            // Build rows
+            filtered.forEach((p, index) => {
+                const row = document.createElement("div");
+                row.className = "playerRow";
+
+                let modeDisplay = "";
+
+                // Overall: show ONLY tested modes
+                if (selectedMode === "overall") {
+                    modeDisplay = Object.entries(p.modes)
+                        .filter(([mode, tier]) => tier !== null)
+                        .map(([mode, tier]) => `
+                            <div class="modeTag">${mode}: ${tier}</div>
+                        `)
+                        .join("");
+                }
+
+                // Mode-specific: show ONLY that mode
+                else {
+                    modeDisplay = `
+                        <div class="modeTag">${selectedMode}: ${p.modes[selectedMode]}</div>
+                    `;
+                }
+
+                row.innerHTML = `
+                    <div class="rank">#${index + 1}</div>
+
+                    <div class="nameBlock">
+                        <div class="playerName">${p.name}</div>
+                    </div>
+
+                    <div class="modeBlock">
+                        ${modeDisplay}
+                    </div>
+                `;
+
+                board.appendChild(row);
+            });
         });
-    });
+}
