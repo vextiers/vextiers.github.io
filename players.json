@@ -1,17 +1,132 @@
 [
-   {
-    "name": "Vexylcron",
-    "tier": "LT3",
-    "modes": {
-        "vanilla": null,
-        "crystal": "HT4",
-        "mace": "LT3",
-        "diamond_pot": null,
-        "netherite_pot": null,
-        "uhc": null,
-        "smp": null,
-        "sword": null,
-        "axe": null
+    {
+        "name": "Vexylcron",
+        "modes": {
+            "crystal": "HT4",
+            "mace": "LT3",
+            "diamond_pot": null,
+            "netherite_pot": null,
+            "uhc": null,
+            "smp": null,
+            "sword": null,
+            "axe": null
+        }
+    },
+    {
+        "name": "coldified",
+        "modes": {
+            "crystal": "LT3",
+            "mace": "LT1",
+            "diamond_pot": null,
+            "netherite_pot": null,
+            "uhc": null,
+            "smp": null,
+            "sword": null,
+            "axe": null
+        }
+    },
+    {
+        "name": "PLAYER_3",
+        "modes": {
+            "crystal": null,
+            "mace": null,
+            "diamond_pot": null,
+            "netherite_pot": null,
+            "uhc": null,
+            "smp": null,
+            "sword": null,
+            "axe": null
+        }
+    },
+    {
+        "name": "PLAYER_4",
+        "modes": {
+            "crystal": null,
+            "mace": null,
+            "diamond_pot": null,
+            "netherite_pot": null,
+            "uhc": null,
+            "smp": null,
+            "sword": null,
+            "axe": null
+        }
+    },
+    {
+        "name": "PLAYER_5",
+        "modes": {
+            "crystal": null,
+            "mace": null,
+            "diamond_pot": null,
+            "netherite_pot": null,
+            "uhc": null,
+            "smp": null,
+            "sword": null,
+            "axe": null
+        }
+    },
+    {
+        "name": "PLAYER_6",
+        "modes": {
+            "crystal": null,
+            "mace": null,
+            "diamond_pot": null,
+            "netherite_pot": null,
+            "uhc": null,
+            "smp": null,
+            "sword": null,
+            "axe": null
+        }
+    },
+    {
+        "name": "PLAYER_7",
+        "modes": {
+            "crystal": null,
+            "mace": null,
+            "diamond_pot": null,
+            "netherite_pot": null,
+            "uhc": null,
+            "smp": null,
+            "sword": null,
+            "axe": null
+        }
+    },
+    {
+        "name": "PLAYER_8",
+        "modes": {
+            "crystal": null,
+            "mace": null,
+            "diamond_pot": null,
+            "netherite_pot": null,
+            "uhc": null,
+            "smp": null,
+            "sword": null,
+            "axe": null
+        }
+    },
+    {
+        "name": "PLAYER_9",
+        "modes": {
+            "crystal": null,
+            "mace": null,
+            "diamond_pot": null,
+            "netherite_pot": null,
+            "uhc": null,
+            "smp": null,
+            "sword": null,
+            "axe": null
+        }
+    },
+    {
+        "name": "PLAYER_10",
+        "modes": {
+            "crystal": null,
+            "mace": null,
+            "diamond_pot": null,
+            "netherite_pot": null,
+            "uhc": null,
+            "smp": null,
+            "sword": null,
+            "axe": null
+        }
     }
-}
 ]
