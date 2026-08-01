@@ -187,19 +187,8 @@ document.getElementById("modeSelector").addEventListener("change", () => {
     loadRankings();
 });
 
-// Hybrid skin system
-function getSkinURL(username) {
-    const mcHeads = `https://mc-heads.net/avatar/${encodeURIComponent(username)}/64`;
-    const skLauncher = `https://skins.sklauncher.net/head/${encodeURIComponent(username)}`;
-
-    // Try MCHeads first, fallback to SKLauncher
-    return new Promise(resolve => {
-        const img = new Image();
-        img.src = mcHeads;
-
-        img.onload = () => resolve(mcHeads);     // Mojang skin exists
-        img.onerror = () => resolve(skLauncher); // Cracked → SKLauncher
-    });
+function getSkinURL(player) {
+    return `https://mc-heads.net/avatar/${encodeURIComponent(player.name)}/64`;
 }
 
 function loadRankings() {
@@ -207,7 +196,7 @@ function loadRankings() {
 
     fetch("players.json")
         .then(res => res.json())
-        .then(async players => {
+        .then(players => {
 
             players.forEach(p => {
                 const { total, count } = calculateAverageTier(p.modes);
@@ -216,31 +205,34 @@ function loadRankings() {
                 p.overallTier = numberToTier(Math.round(p.averageTierScore));
             });
 
-            let filtered = players;
+            let filtered;
 
             if (selectedMode !== "overall") {
                 filtered = players.filter(p => p.modes[selectedMode] !== null);
-
-                filtered.sort((a, b) => {
-                    return tierToNumber(b.modes[selectedMode]) - tierToNumber(a.modes[selectedMode]);
-                });
             } else {
-                filtered.sort((a, b) => {
+                // HIDE players with 0 tested modes
+                filtered = players.filter(p => p.testedModes > 0);
+            }
+
+            filtered.sort((a, b) => {
+                if (selectedMode !== "overall") {
+                    return tierToNumber(b.modes[selectedMode]) - tierToNumber(a.modes[selectedMode]);
+                } else {
                     if (b.testedModes !== a.testedModes) {
                         return b.testedModes - a.testedModes;
                     }
                     return b.averageTierScore - a.averageTierScore;
-                });
-            }
+                }
+            });
 
             const board = document.getElementById("leaderboard");
             board.innerHTML = "";
 
-            for (const p of filtered) {
+            filtered.forEach((p, index) => {
                 const row = document.createElement("div");
                 row.className = "playerRow";
 
-                const skinURL = await getSkinURL(p.name);
+                const skinURL = getSkinURL(p);
 
                 let modeDisplay = "";
 
@@ -258,7 +250,7 @@ function loadRankings() {
                 }
 
                 row.innerHTML = `
-                    <div class="rank">#${filtered.indexOf(p) + 1}</div>
+                    <div class="rank">#${index + 1}</div>
 
                     <div class="nameBlock">
                         <img class="skinHead" src="${skinURL}" alt="${p.name}">
@@ -271,7 +263,7 @@ function loadRankings() {
                 `;
 
                 board.appendChild(row);
-            }
+            });
         });
 }
 
