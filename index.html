@@ -16,8 +16,7 @@
         header {
             text-align: center;
             padding: 40px 20px;
-            border-bottom: 3px solid #7A00FF;
-            box-shadow: 0 0 25px #7A00FF55;
+            border-bottom: none; /* FIXED */
             background: #0f0f0f;
         }
 
@@ -34,7 +33,7 @@
             height: 10px;
             background: #7A00FF;
             box-shadow: 0 0 18px #7A00FFAA;
-            margin-top: 8px;
+            margin-top: 12px; /* FIXED POSITION */
         }
 
         /* MODE BAR */
@@ -62,13 +61,7 @@
             transition: 0.15s;
         }
 
-        /* Hover style */
-        .modeButton:hover {
-            background: #1a1a1a;
-            box-shadow: 0 0 25px #7A00FFAA;
-        }
-
-        /* ACTIVE MODE = same as hover */
+        .modeButton:hover,
         .modeButton.active {
             background: #1a1a1a;
             box-shadow: 0 0 25px #7A00FFAA;
@@ -177,7 +170,6 @@
 <div class="leaderboard" id="leaderboard"></div>
 
 <script>
-// tier mapping
 function tierToNumber(tier) {
     const map = {
         "LT5": 1, "HT5": 2,
@@ -223,7 +215,6 @@ function getSkinURL(player) {
 
 function loadRankings(selectedMode = "overall") {
 
-    // Set active button
     document.querySelectorAll('.modeButton').forEach(btn => {
         btn.classList.remove("active");
         if (btn.dataset.mode === selectedMode) {
@@ -303,11 +294,9 @@ function loadRankings(selectedMode = "overall") {
         });
 }
 
-// Mode button click handling
 document.querySelectorAll('.modeButton').forEach(btn => {
     btn.addEventListener('click', () => {
-        const mode = btn.dataset.mode;
-        loadRankings(mode);
+        loadRankings(btn.dataset.mode);
     });
 });
 
