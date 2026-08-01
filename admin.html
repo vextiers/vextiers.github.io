@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VEXTIERS — Admin Panel</title>
+
+    <style>
+        body {
+            background: #0a0a0a;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        h1 {
+            color: #7A00FF;
+            text-shadow: 0 0 15px #7A00FF;
+            font-size: 48px;
+        }
+
+        .form {
+            background: #111;
+            width: 50%;
+            margin: 40px auto;
+            padding: 25px;
+            border-radius: 14px;
+            border: 2px solid #7A00FF;
+            box-shadow: 0 0 25px #7A00FF55;
+            text-align: left;
+        }
+
+        label {
+            font-size: 20px;
+            color: #7A00FF;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            background: #222;
+            color: #e0e0e0;
+            border: 1px solid #7A00FF;
+            border-radius: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #7A00FF;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 0 15px #7A00FF;
+        }
+
+        button:hover {
+            box-shadow: 0 0 25px #7A00FF;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>VEXTIERS Admin Panel</h1>
+
+<div class="form">
+    <label>Player Name</label>
+    <input id="playerName" type="text">
+
+    <label>Mode</label>
+    <select id="mode">
+        <option value="mace">Mace</option>
+        <option value="crystal">Crystal</option>
+        <option value="sword">Sword</option>
+        <option value="bow">Bow</option>
+    </select>
+
+    <label>Tier</label>
+    <select id="tier">
+        <option value="HT1">HT1</option>
+        <option value="HT2">HT2</option>
+        <option value="HT3">HT3</option>
+        <option value="LT1">LT1</option>
+        <option value="LT2">LT2</option>
+        <option value="LT3">LT3</option>
+        <option value="LT4">LT4</option>
+        <option value="LT5">LT5</option>
+    </select>
+
+    <button onclick="submitData()">Submit</button>
+</div>
+
+<script>
+function submitData() {
+    const name = document.getElementById("playerName").value;
+    const mode = document.getElementById("mode").value;
+    const tier = document.getElementById("tier").value;
+
+    const payload = {
+        name: name,
+        mode: mode,
+        tier: tier
+    };
+
+    alert("Copy this JSON and paste it into players.json:\n\n" + JSON.stringify(payload, null, 4));
+}
+</script>
+
+</body>
+</html>
