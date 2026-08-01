@@ -4,7 +4,7 @@
     "tier": "LT3",
     "modes": {
         "vanilla": null,
-        "crystal": HT4,
+        "crystal": "HT4",
         "mace": "LT3",
         "diamond_pot": null,
         "netherite_pot": null,
