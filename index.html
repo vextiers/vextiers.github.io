@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VEXTIERS</title>
+    <title>VEXTIERS — Home</title>
 
     <style>
         body {
@@ -15,62 +15,83 @@
 
         header {
             text-align: center;
-            padding: 50px 20px;
+            padding: 40px 20px;
             border-bottom: 3px solid #7A00FF;
             box-shadow: 0 0 25px #7A00FF55;
-            background: linear-gradient(180deg, #0f0f0f, #0a0a0a);
+            background: #0f0f0f;
         }
 
         h1 {
-            font-size: 56px;
+            font-size: 48px;
             color: #7A00FF;
             text-shadow: 0 0 18px #7A00FF;
             letter-spacing: 2px;
         }
 
-        .nav {
+        .selectorBox {
+            width: 90%;
+            margin: 30px auto;
             text-align: center;
-            margin-top: 20px;
         }
 
-        .nav a {
-            color: #7A00FF;
-            margin: 0 20px;
-            font-size: 20px;
-            text-decoration: none;
-        }
-
-        .nav a:hover {
-            text-shadow: 0 0 10px #7A00FF;
-        }
-
-        .card {
+        select {
             background: #111;
-            width: 70%;
-            margin: 40px auto;
-            padding: 25px;
-            border-radius: 14px;
+            color: #e0e0e0;
+            padding: 12px;
+            font-size: 18px;
             border: 2px solid #7A00FF;
-            box-shadow: 0 0 25px #7A00FF55;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #7A00FF55;
+        }
+
+        .leaderboard {
+            width: 90%;
+            margin: 40px auto;
+        }
+
+        .playerRow {
+            display: flex;
+            align-items: center;
+            background: #111;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            border: 2px solid #7A00FF;
+            box-shadow: 0 0 20px #7A00FF55;
+        }
+
+        .rank {
+            width: 60px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #7A00FF;
+            text-shadow: 0 0 10px #7A00FF;
             text-align: center;
         }
 
-        .card h2 {
-            color: #7A00FF;
-            text-shadow: 0 0 12px #7A00FF;
-            font-size: 32px;
-            margin-bottom: 10px;
+        .nameBlock {
+            flex: 1;
+            padding-left: 20px;
         }
 
-        .player {
-            padding: 12px;
-            border-bottom: 1px solid #333;
-            font-size: 18px;
-            text-align: left;
+        .playerName {
+            font-size: 24px;
+            font-weight: bold;
         }
 
-        .player strong {
-            color: #7A00FF;
+        .modeBlock {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            max-width: 500px;
+        }
+
+        .modeTag {
+            background: #222;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #7A00FF;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -81,21 +102,90 @@
     <h1>VEXTIERS</h1>
 </header>
 
-<div class="nav">
-    <a href="index.html">Home</a>
-    <a href="tiers.html">Tiers</a>
-    <a href="modes.html">Modes</a>
-    <a href="players.html">Players</a>
+<div class="selectorBox">
+    <select id="modeSelector">
+        <option value="overall">Overall Rankings</option>
+        <option value="crystal">Crystal</option>
+        <option value="mace">Mace</option>
+        <option value="diamond_pot">Diamond-Pot</option>
+        <option value="netherite_pot">Netherite-Pot</option>
+        <option value="uhc">UHC</option>
+        <option value="smp">SMP</option>
+        <option value="sword">Sword</option>
+        <option value="axe">Axe</option>
+    </select>
 </div>
 
-<div class="card">
-    <h2>Overall Rankings</h2>
-    <p>Players ranked by performance across tested modes.</p>
-</div>
-
-<div id="overallList" class="card"></div>
+<div class="leaderboard" id="leaderboard"></div>
 
 <script src="script.js"></script>
+
+<script>
+document.getElementById("modeSelector").addEventListener("change", () => {
+    loadRankings();
+});
+
+function loadRankings() {
+    const selectedMode = document.getElementById("modeSelector").value;
+
+    fetch("players.json")
+        .then(res => res.json())
+        .then(players => {
+
+            players.forEach(p => {
+                const { total, count } = calculateAverageTier(p.modes);
+                p.testedModes = count;
+                p.averageTierScore = count > 0 ? total / count : 0;
+                p.overallTier = numberToTier(Math.round(p.averageTierScore));
+            });
+
+            let filtered = players;
+
+            if (selectedMode !== "overall") {
+                filtered = players.filter(p => p.modes[selectedMode] !== null);
+
+                filtered.sort((a, b) => {
+                    return tierToNumber(b.modes[selectedMode]) - tierToNumber(a.modes[selectedMode]);
+                });
+            } else {
+                filtered.sort((a, b) => {
+                    if (b.testedModes !== a.testedModes) {
+                        return b.testedModes - a.testedModes;
+                    }
+                    return b.averageTierScore - a.averageTierScore;
+                });
+            }
+
+            const board = document.getElementById("leaderboard");
+            board.innerHTML = "";
+
+            filtered.forEach((p, index) => {
+                const row = document.createElement("div");
+                row.className = "playerRow";
+
+                row.innerHTML = `
+                    <div class="rank">#${index + 1}</div>
+
+                    <div class="nameBlock">
+                        <div class="playerName">${p.name}</div>
+                    </div>
+
+                    <div class="modeBlock">
+                        ${Object.entries(p.modes)
+                            .map(([mode, tier]) => `
+                                <div class="modeTag">${mode}: ${tier ?? "N/A"}</div>
+                            `)
+                            .join("")}
+                    </div>
+                `;
+
+                board.appendChild(row);
+            });
+        });
+}
+
+loadRankings();
+</script>
 
 </body>
 </html>
