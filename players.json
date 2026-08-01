@@ -1,16 +1,17 @@
 [
-    {
-        "name": "EXAMPLE",
-        "modes": {
-            "crystal": null,
-            "mace": null,
-            "diamond_pot": null,
-            "netherite_pot": null,
-            "uhc": null,
-            "smp": null,
-            "sword": null,
-            "axe": null
-        },
-        "overallTier": null
+   {
+    "name": "Vexylcron",
+    "tier": "LT3",
+    "modes": {
+        "vanilla": null,
+        "crystal": null,
+        "mace": "LT3",
+        "diamond_pot": null,
+        "netherite_pot": null,
+        "uhc": null,
+        "smp": null,
+        "sword": null,
+        "axe": null
     }
+}
 ]
