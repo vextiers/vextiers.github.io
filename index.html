@@ -28,23 +28,7 @@
             letter-spacing: 2px;
         }
 
-        /* MODE BAR CONTAINER */
-        .modeContainer {
-            position: relative;
-            width: 100%;
-        }
-
-        /* UNDERLINE ABOVE BUTTONS */
-        #selectedBar {
-            position: absolute;
-            top: 0;
-            height: 10px;
-            background: #7A00FF;
-            box-shadow: 0 0 18px #7A00FFAA;
-            transition: 0.2s ease;
-        }
-
-        /* FULL WIDTH MODE BAR */
+        /* MODE BAR */
         .modeBar {
             width: 100%;
             display: flex;
@@ -69,7 +53,14 @@
             transition: 0.15s;
         }
 
+        /* Hover style */
         .modeButton:hover {
+            background: #1a1a1a;
+            box-shadow: 0 0 25px #7A00FFAA;
+        }
+
+        /* ACTIVE MODE = same as hover */
+        .modeButton.active {
             background: #1a1a1a;
             box-shadow: 0 0 25px #7A00FFAA;
         }
@@ -158,21 +149,17 @@
     <h1>VEXTIERS</h1>
 </header>
 
-<!-- MODE BAR + UNDERLINE -->
-<div class="modeContainer">
-    <div id="selectedBar"></div>
-
-    <div class="modeBar">
-        <div class="modeButton" data-mode="overall"><div class="modeIcon"></div><div class="modeText">Overall</div></div>
-        <div class="modeButton" data-mode="crystal"><div class="modeIcon"></div><div class="modeText">Crystal</div></div>
-        <div class="modeButton" data-mode="mace"><div class="modeIcon"></div><div class="modeText">Mace</div></div>
-        <div class="modeButton" data-mode="sword"><div class="modeIcon"></div><div class="modeText">Sword</div></div>
-        <div class="modeButton" data-mode="axe"><div class="modeIcon"></div><div class="modeText">Axe</div></div>
-        <div class="modeButton" data-mode="uhc"><div class="modeIcon"></div><div class="modeText">UHC</div></div>
-        <div class="modeButton" data-mode="smp"><div class="modeIcon"></div><div class="modeText">SMP</div></div>
-        <div class="modeButton" data-mode="diamond_pot"><div class="modeIcon"></div><div class="modeText">Pot</div></div>
-        <div class="modeButton" data-mode="netherite_pot"><div class="modeIcon"></div><div class="modeText">Neth Pot</div></div>
-    </div>
+<!-- MODE BAR -->
+<div class="modeBar">
+    <div class="modeButton" data-mode="overall"><div class="modeIcon"></div><div class="modeText">Overall</div></div>
+    <div class="modeButton" data-mode="crystal"><div class="modeIcon"></div><div class="modeText">Crystal</div></div>
+    <div class="modeButton" data-mode="mace"><div class="modeIcon"></div><div class="modeText">Mace</div></div>
+    <div class="modeButton" data-mode="sword"><div class="modeIcon"></div><div class="modeText">Sword</div></div>
+    <div class="modeButton" data-mode="axe"><div class="modeIcon"></div><div class="modeText">Axe</div></div>
+    <div class="modeButton" data-mode="uhc"><div class="modeIcon"></div><div class="modeText">UHC</div></div>
+    <div class="modeButton" data-mode="smp"><div class="modeIcon"></div><div class="modeText">SMP</div></div>
+    <div class="modeButton" data-mode="diamond_pot"><div class="modeIcon"></div><div class="modeText">Pot</div></div>
+    <div class="modeButton" data-mode="netherite_pot"><div class="modeIcon"></div><div class="modeText">Neth Pot</div></div>
 </div>
 
 <div class="leaderboard" id="leaderboard"></div>
@@ -222,13 +209,98 @@ function getSkinURL(player) {
     return `https://mc-heads.net/avatar/${encodeURIComponent(player.name)}/64`;
 }
 
-function updateSelectedBar(mode) {
-    const buttons = Array.from(document.querySelectorAll(".modeButton"));
-    const btn = buttons.find(b => b.dataset.mode === mode);
-    const bar = document.getElementById("selectedBar");
+function loadRankings(selectedMode = "overall") {
 
-    bar.style.width = btn.offsetWidth + "px";
-    bar.style.left = btn.offsetLeft + "px";
+    // Set active button
+    document.querySelectorAll('.modeButton').forEach(btn => {
+        btn.classList.remove("active");
+        if (btn.dataset.mode === selectedMode) {
+            btn.classList.add("active");
+        }
+    });
+
+    fetch("players.json")
+        .then(res => res.json())
+        .then(players => {
+
+            players.forEach(p => {
+                const { total, count } = calculateAverageTier(p.modes);
+                p.testedModes = count;
+                p.averageTierScore = count > 0 ? total / count : 0;
+                p.overallTier = numberToTier(Math.round(p.averageTierScore));
+            });
+
+            let filtered;
+
+            if (selectedMode !== "overall") {
+                filtered = players.filter(p => p.modes[selectedMode] !== null);
+            } else {
+                filtered = players.filter(p => p.testedModes > 0);
+            }
+
+            filtered.sort((a, b) => {
+                if (selectedMode !== "overall") {
+                    return tierToNumber(b.modes[selectedMode]) - tierToNumber(a.modes[selectedMode]);
+                } else {
+                    if (b.testedModes !== a.testedModes) {
+                        return b.testedModes - a.testedModes;
+                    }
+                    return b.averageTierScore - a.averageTierScore;
+                }
+            });
+
+            const board = document.getElementById("leaderboard");
+            board.innerHTML = "";
+
+            filtered.forEach((p, index) => {
+                const row = document.createElement("div");
+                row.className = "playerRow";
+
+                const skinURL = getSkinURL(p);
+
+                let modeDisplay = "";
+
+                if (selectedMode === "overall") {
+                    modeDisplay = Object.entries(p.modes)
+                        .filter(([mode, tier]) => tier !== null)
+                        .map(([mode, tier]) => `
+                            <div class="modeTag">${mode}: ${tier}</div>
+                        `)
+                        .join("");
+                } else {
+                    modeDisplay = `
+                        <div class="modeTag">${selectedMode}: ${p.modes[selectedMode]}</div>
+                    `;
+                }
+
+                row.innerHTML = `
+                    <div class="rank">#${index + 1}</div>
+
+                    <div class="nameBlock">
+                        <img class="skinHead" src="${skinURL}" alt="${p.name}">
+                        <div class="playerName">${p.name}</div>
+                    </div>
+
+                    <div class="modeBlock">
+                        ${modeDisplay}
+                    </div>
+                `;
+
+                board.appendChild(row);
+            });
+        });
 }
 
-function loadRankings(selectedMode = "overall")
+// Mode button click handling
+document.querySelectorAll('.modeButton').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const mode = btn.dataset.mode;
+        loadRankings(mode);
+    });
+});
+
+loadRankings();
+</script>
+
+</body>
+</html>
