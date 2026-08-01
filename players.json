@@ -13,10 +13,10 @@
         }
     },
     {
-        "name": "coldified",
+        "name": "PLAYER_2",
         "modes": {
-            "crystal": "LT3",
-            "mace": "LT1",
+            "crystal": "null",
+            "mace": "null,
             "diamond_pot": null,
             "netherite_pot": null,
             "uhc": null,
