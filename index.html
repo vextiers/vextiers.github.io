@@ -28,6 +28,15 @@
             letter-spacing: 2px;
         }
 
+        /* PURPLE BAR UNDER HEADER */
+        #topBar {
+            width: 100%;
+            height: 10px;
+            background: #7A00FF;
+            box-shadow: 0 0 18px #7A00FFAA;
+            margin-top: 8px;
+        }
+
         /* MODE BAR */
         .modeBar {
             width: 100%;
@@ -42,8 +51,8 @@
             height: 110px;
             background: #111;
             border: 2px solid #7A00FF;
-            border-bottom: none;
-            border-radius: 22px 22px 0 0;
+            border-bottom: 2px solid #7A00FF; /* bottom line restored */
+            border-radius: 22px 22px 0 0; /* rounded top only */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -148,6 +157,9 @@
 <header>
     <h1>VEXTIERS</h1>
 </header>
+
+<!-- PURPLE BAR UNDER HEADER -->
+<div id="topBar"></div>
 
 <!-- MODE BAR -->
 <div class="modeBar">
