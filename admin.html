@@ -19,7 +19,7 @@
             font-size: 48px;
         }
 
-        .gate, .panel {
+        .box {
             background: #111;
             width: 50%;
             margin: 40px auto;
@@ -35,7 +35,7 @@
             color: #7A00FF;
         }
 
-        input, select {
+        input, select, textarea {
             width: 100%;
             padding: 10px;
             margin-top: 8px;
@@ -44,6 +44,13 @@
             color: #e0e0e0;
             border: 1px solid #7A00FF;
             border-radius: 8px;
+        }
+
+        textarea {
+            height: 180px;
+            resize: none;
+            font-family: monospace;
+            font-size: 16px;
         }
 
         button {
@@ -74,14 +81,16 @@
 
 <h1>VEXTIERS Admin</h1>
 
-<div class="gate" id="gate">
+<!-- ACCESS GATE -->
+<div class="box" id="gate">
     <label>Enter access code</label>
     <input id="codeInput" type="password" placeholder="Access code">
     <button onclick="checkCode()">Unlock</button>
     <div id="status"></div>
 </div>
 
-<div class="panel" id="panel" style="display:none;">
+<!-- ADMIN PANEL -->
+<div class="box" id="panel" style="display:none;">
     <label>Player Name</label>
     <input id="playerName" type="text">
 
@@ -105,7 +114,10 @@
         <option value="LT5">LT5</option>
     </select>
 
-    <button onclick="submitData()">Submit</button>
+    <button onclick="generateJSON()">Generate JSON</button>
+
+    <label style="margin-top:20px;">Copy‑Paste JSON Output</label>
+    <textarea id="outputBox" readonly></textarea>
 </div>
 
 <script>
@@ -123,7 +135,7 @@ function checkCode() {
     }
 }
 
-function submitData() {
+function generateJSON() {
     const name = document.getElementById("playerName").value;
     const mode = document.getElementById("mode").value;
     const tier = document.getElementById("tier").value;
@@ -134,7 +146,8 @@ function submitData() {
         tier: tier
     };
 
-    alert("This is the entry to add/update in your data:\n\n" + JSON.stringify(payload, null, 4));
+    document.getElementById("outputBox").value =
+        JSON.stringify(payload, null, 4);
 }
 </script>
 
