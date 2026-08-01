@@ -187,12 +187,27 @@ document.getElementById("modeSelector").addEventListener("change", () => {
     loadRankings();
 });
 
+// Hybrid skin system
+function getSkinURL(username) {
+    const mcHeads = `https://mc-heads.net/avatar/${encodeURIComponent(username)}/64`;
+    const skLauncher = `https://skins.sklauncher.net/head/${encodeURIComponent(username)}`;
+
+    // Try MCHeads first, fallback to SKLauncher
+    return new Promise(resolve => {
+        const img = new Image();
+        img.src = mcHeads;
+
+        img.onload = () => resolve(mcHeads);     // Mojang skin exists
+        img.onerror = () => resolve(skLauncher); // Cracked → SKLauncher
+    });
+}
+
 function loadRankings() {
     const selectedMode = document.getElementById("modeSelector").value;
 
     fetch("players.json")
         .then(res => res.json())
-        .then(players => {
+        .then(async players => {
 
             players.forEach(p => {
                 const { total, count } = calculateAverageTier(p.modes);
@@ -221,9 +236,11 @@ function loadRankings() {
             const board = document.getElementById("leaderboard");
             board.innerHTML = "";
 
-            filtered.forEach((p, index) => {
+            for (const p of filtered) {
                 const row = document.createElement("div");
                 row.className = "playerRow";
+
+                const skinURL = await getSkinURL(p.name);
 
                 let modeDisplay = "";
 
@@ -240,13 +257,11 @@ function loadRankings() {
                     `;
                 }
 
-                const skinUrl = `https://mc-heads.net/avatar/${encodeURIComponent(p.name)}/64`;
-
                 row.innerHTML = `
-                    <div class="rank">#${index + 1}</div>
+                    <div class="rank">#${filtered.indexOf(p) + 1}</div>
 
                     <div class="nameBlock">
-                        <img class="skinHead" src="${skinUrl}" alt="${p.name}">
+                        <img class="skinHead" src="${skinURL}" alt="${p.name}">
                         <div class="playerName">${p.name}</div>
                     </div>
 
@@ -256,7 +271,7 @@ function loadRankings() {
                 `;
 
                 board.appendChild(row);
-            });
+            }
         });
 }
 
