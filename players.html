@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VEXTIERS — Players</title>
+    <title>VEXTIERS — Global Rankings</title>
 
     <style>
         body {
@@ -18,7 +18,7 @@
             padding: 40px 20px;
             border-bottom: 3px solid #7A00FF;
             box-shadow: 0 0 25px #7A00FF55;
-            background: linear-gradient(180deg, #0f0f0f, #0a0a0a);
+            background: #0f0f0f;
         }
 
         h1 {
@@ -28,30 +28,60 @@
             letter-spacing: 2px;
         }
 
-        .playerCard {
+        .leaderboard {
+            width: 90%;
+            margin: 40px auto;
+        }
+
+        .playerRow {
+            display: flex;
+            align-items: center;
             background: #111;
-            width: 80%;
-            margin: 25px auto;
-            padding: 20px;
-            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 10px;
             border: 2px solid #7A00FF;
-            box-shadow: 0 0 25px #7A00FF55;
+            box-shadow: 0 0 20px #7A00FF55;
         }
 
-        .playerCard h2 {
+        .rank {
+            width: 60px;
+            font-size: 28px;
+            font-weight: bold;
             color: #7A00FF;
-            text-shadow: 0 0 12px #7A00FF;
-            margin-bottom: 10px;
+            text-shadow: 0 0 10px #7A00FF;
+            text-align: center;
         }
 
-        .modeList {
-            margin-top: 10px;
+        .nameBlock {
+            flex: 1;
             padding-left: 20px;
         }
 
-        .modeList li {
-            margin: 4px 0;
-            font-size: 16px;
+        .nameBlock .playerName {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e0e0e0;
+        }
+
+        .nameBlock .overallTier {
+            font-size: 18px;
+            color: #7A00FF;
+        }
+
+        .modeBlock {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            max-width: 500px;
+        }
+
+        .modeTag {
+            background: #222;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #7A00FF;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -59,10 +89,10 @@
 <body>
 
 <header>
-    <h1>VEXTIERS — Players</h1>
+    <h1>VEXTIERS — Global Rankings</h1>
 </header>
 
-<div id="playersContainer"></div>
+<div class="leaderboard" id="leaderboard"></div>
 
 <script>
 // Convert tier label → number
@@ -135,26 +165,30 @@ fetch("players.json")
             return b.averageTierScore - a.averageTierScore;
         });
 
-        const container = document.getElementById("playersContainer");
+        const board = document.getElementById("leaderboard");
 
         players.forEach((p, index) => {
-            const card = document.createElement("div");
-            card.className = "playerCard";
+            const row = document.createElement("div");
+            row.className = "playerRow";
 
-            card.innerHTML = `
-                <h2>#${index + 1} — ${p.name}</h2>
-                <strong>Overall Tier:</strong> ${p.overallTier}<br>
-                <strong>Tested Modes:</strong> ${p.testedModes}<br><br>
+            row.innerHTML = `
+                <div class="rank">#${index + 1}</div>
 
-                <strong>Mode Tiers:</strong>
-                <ul class="modeList">
+                <div class="nameBlock">
+                    <div class="playerName">${p.name}</div>
+                    <div class="overallTier">Overall Tier: ${p.overallTier}</div>
+                </div>
+
+                <div class="modeBlock">
                     ${Object.entries(p.modes)
-                        .map(([mode, tier]) => `<li>${mode}: ${tier ?? "N/A"}</li>`)
+                        .map(([mode, tier]) => `
+                            <div class="modeTag">${mode}: ${tier ?? "N/A"}</div>
+                        `)
                         .join("")}
-                </ul>
+                </div>
             `;
 
-            container.appendChild(card);
+            board.appendChild(row);
         });
     });
 </script>
