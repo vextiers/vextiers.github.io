@@ -27,6 +27,7 @@
             letter-spacing: 2px;
         }
 
+        /* MODE BAR */
         .modeBar {
             width: 100%;
             display: flex;
@@ -34,6 +35,7 @@
             padding: 0;
         }
 
+        /* PILL TOP, FLAT BOTTOM BUTTONS */
         .modeButton {
             flex: 1;
             height: 110px;
@@ -56,9 +58,10 @@
             box-shadow: 0 0 25px #7A00FFAA;
         }
 
+        /* FIXED: BUTTON ICONS UNSQUISHED */
         .modeIcon {
-            width: 48px;
             height: 48px;
+            width: auto;
             margin-bottom: 6px;
             image-rendering: pixelated;
         }
@@ -118,27 +121,28 @@
 
         .modeBlock {
             display: flex;
-            gap: 16px;
+            gap: 12px;
             flex-wrap: nowrap;
             overflow-x: auto;
             padding-left: 20px;
         }
 
+        /* FIXED: LEADERBOARD ICON SPACING */
         .modeTag {
             background: #222;
-            padding: 10px 14px;
-            border-radius: 10px;
+            padding: 6px 10px;
+            border-radius: 8px;
             border: 1px solid #7A00FF;
-            font-size: 20px;
-            white-space: nowrap;
+            font-size: 18px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
+            white-space: nowrap;
         }
 
-        /* FIXED: UNSQUISHED ICONS */
+        /* FIXED: LEADERBOARD ICONS UNSQUISHED */
         .modeTagIcon {
-            height: 32px;
+            height: 24px;
             width: auto;
             image-rendering: pixelated;
         }
@@ -151,6 +155,7 @@
     <h1>VEXTIERS</h1>
 </header>
 
+<!-- MODE BAR -->
 <div class="modeBar">
     <div class="modeButton" data-mode="overall">
         <img class="modeIcon" src="icons/overall.png">
