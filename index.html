@@ -72,6 +72,9 @@
         .nameBlock {
             flex: 1;
             padding-left: 25px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
         .playerName {
@@ -79,11 +82,20 @@
             font-weight: bold;
         }
 
+        .skinHead {
+            width: 64px;
+            height: 64px;
+            border-radius: 8px;
+            image-rendering: pixelated;
+            box-shadow: 0 0 12px #7A00FFAA;
+            border: 2px solid #7A00FF;
+        }
+
         .modeBlock {
             display: flex;
             gap: 16px;
-            flex-wrap: nowrap;       /* KEEP ALL ON ONE LINE */
-            overflow-x: auto;        /* SCROLL IF TOO LONG */
+            flex-wrap: nowrap;
+            overflow-x: auto;
             padding-left: 20px;
         }
 
@@ -93,7 +105,7 @@
             border-radius: 10px;
             border: 1px solid #7A00FF;
             font-size: 20px;
-            white-space: nowrap;     /* PREVENT WRAPPING */
+            white-space: nowrap;
         }
     </style>
 </head>
@@ -120,9 +132,57 @@
 
 <div class="leaderboard" id="leaderboard"></div>
 
-<script src="script.js"></script>
-
 <script>
+// tier mapping: LT5, HT5, LT4, HT4, LT3, HT3, LT2, HT2, LT1, HT1 (bottom → top)
+function tierToNumber(tier) {
+    const map = {
+        "LT5": 1,
+        "HT5": 2,
+        "LT4": 3,
+        "HT4": 4,
+        "LT3": 5,
+        "HT3": 6,
+        "LT2": 7,
+        "HT2": 8,
+        "LT1": 9,
+        "HT1": 10
+    };
+    return map[tier] || null;
+}
+
+function numberToTier(num) {
+    const map = {
+        1: "LT5",
+        2: "HT5",
+        3: "LT4",
+        4: "HT4",
+        5: "LT3",
+        6: "HT3",
+        7: "LT2",
+        8: "HT2",
+        9: "LT1",
+        10: "HT1"
+    };
+    return map[num] || "Unknown";
+}
+
+function calculateAverageTier(modes) {
+    let total = 0;
+    let count = 0;
+
+    for (const mode in modes) {
+        if (modes[mode] !== null) {
+            const num = tierToNumber(modes[mode]);
+            if (num !== null) {
+                total += num;
+                count++;
+            }
+        }
+    }
+
+    return { total, count };
+}
+
 document.getElementById("modeSelector").addEventListener("change", () => {
     loadRankings();
 });
@@ -180,10 +240,13 @@ function loadRankings() {
                     `;
                 }
 
+                const skinUrl = `https://mc-heads.net/avatar/${encodeURIComponent(p.name)}/64`;
+
                 row.innerHTML = `
                     <div class="rank">#${index + 1}</div>
 
                     <div class="nameBlock">
+                        <img class="skinHead" src="${skinUrl}" alt="${p.name}">
                         <div class="playerName">${p.name}</div>
                     </div>
 
