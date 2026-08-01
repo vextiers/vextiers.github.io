@@ -11,86 +11,91 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            text-align: center;
         }
 
         header {
-            padding: 60px 20px;
-            background: linear-gradient(180deg, #0f0f0f, #0a0a0a);
+            text-align: center;
+            padding: 50px 20px;
             border-bottom: 3px solid #7A00FF;
             box-shadow: 0 0 25px #7A00FF55;
+            background: linear-gradient(180deg, #0f0f0f, #0a0a0a);
         }
 
         h1 {
             font-size: 56px;
             color: #7A00FF;
             text-shadow: 0 0 18px #7A00FF;
-            margin-bottom: 10px;
             letter-spacing: 2px;
         }
 
-        p.subtitle {
-            font-size: 22px;
-            opacity: 0.85;
+        .nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .nav a {
+            color: #7A00FF;
+            margin: 0 20px;
+            font-size: 20px;
+            text-decoration: none;
+        }
+
+        .nav a:hover {
+            text-shadow: 0 0 10px #7A00FF;
         }
 
         .card {
             background: #111;
             width: 70%;
             margin: 40px auto;
-            padding: 30px;
+            padding: 25px;
             border-radius: 14px;
             border: 2px solid #7A00FF;
             box-shadow: 0 0 25px #7A00FF55;
+            text-align: center;
         }
 
         .card h2 {
             color: #7A00FF;
-            margin-bottom: 15px;
             text-shadow: 0 0 12px #7A00FF;
             font-size: 32px;
+            margin-bottom: 10px;
         }
 
-        .card p {
+        .player {
+            padding: 12px;
+            border-bottom: 1px solid #333;
             font-size: 18px;
-            opacity: 0.85;
-            line-height: 1.6;
+            text-align: left;
         }
 
-        footer {
-            margin-top: 60px;
-            padding: 20px;
-            font-size: 14px;
-            opacity: 0.5;
-        }
-
-        a {
+        .player strong {
             color: #7A00FF;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-shadow: 0 0 10px #7A00FF;
         }
     </style>
 </head>
 
 <body>
 
-    <header>
-        <h1>VEXTIERS</h1>
-        <p class="subtitle">Global Java PvP Rankings — LT5 → HT1</p>
-    </header>
+<header>
+    <h1>VEXTIERS</h1>
+</header>
 
-    <div class="card">
-        <h2>Welcome to the VEX Tier Hub</h2>
-        <p>This site hosts the official VEXTIERS global PvP ranking system.</p>
-        <p>Player tiers, mode tiers, and VEX‑style competitive metrics coming soon.</p>
-    </div>
+<div class="nav">
+    <a href="index.html">Home</a>
+    <a href="tiers.html">Tiers</a>
+    <a href="modes.html">Modes</a>
+    <a href="players.html">Players</a>
+</div>
 
-    <footer>
-        VEXTIERS © 2026 — VEX Powered
-    </footer>
+<div class="card">
+    <h2>Overall Rankings</h2>
+    <p>Players ranked by performance across tested modes.</p>
+</div>
+
+<div id="overallList" class="card"></div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
