@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VEXTIERS — Admin Panel</title>
+    <title>VEXTIERS — Admin</title>
 
     <style>
         body {
@@ -10,7 +10,7 @@
             color: #e0e0e0;
             font-family: Arial, sans-serif;
             text-align: center;
-            padding-top: 50px;
+            padding-top: 60px;
         }
 
         h1 {
@@ -19,7 +19,7 @@
             font-size: 48px;
         }
 
-        .form {
+        .gate, .panel {
             background: #111;
             width: 50%;
             margin: 40px auto;
@@ -31,15 +31,15 @@
         }
 
         label {
-            font-size: 20px;
+            font-size: 18px;
             color: #7A00FF;
         }
 
         input, select {
             width: 100%;
             padding: 10px;
-            margin-top: 10px;
-            margin-bottom: 20px;
+            margin-top: 8px;
+            margin-bottom: 18px;
             background: #222;
             color: #e0e0e0;
             border: 1px solid #7A00FF;
@@ -53,7 +53,7 @@
             border: none;
             border-radius: 8px;
             color: white;
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
             box-shadow: 0 0 15px #7A00FF;
         }
@@ -61,14 +61,27 @@
         button:hover {
             box-shadow: 0 0 25px #7A00FF;
         }
+
+        #status {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #ff6666;
+        }
     </style>
 </head>
 
 <body>
 
-<h1>VEXTIERS Admin Panel</h1>
+<h1>VEXTIERS Admin</h1>
 
-<div class="form">
+<div class="gate" id="gate">
+    <label>Enter access code</label>
+    <input id="codeInput" type="password" placeholder="Access code">
+    <button onclick="checkCode()">Unlock</button>
+    <div id="status"></div>
+</div>
+
+<div class="panel" id="panel" style="display:none;">
     <label>Player Name</label>
     <input id="playerName" type="text">
 
@@ -96,6 +109,20 @@
 </div>
 
 <script>
+const ACCESS_CODE = "052601";
+
+function checkCode() {
+    const input = document.getElementById("codeInput").value;
+    const status = document.getElementById("status");
+
+    if (input === ACCESS_CODE) {
+        document.getElementById("gate").style.display = "none";
+        document.getElementById("panel").style.display = "block";
+    } else {
+        status.textContent = "Wrong code.";
+    }
+}
+
 function submitData() {
     const name = document.getElementById("playerName").value;
     const mode = document.getElementById("mode").value;
@@ -107,7 +134,7 @@ function submitData() {
         tier: tier
     };
 
-    alert("Copy this JSON and paste it into players.json:\n\n" + JSON.stringify(payload, null, 4));
+    alert("This is the entry to add/update in your data:\n\n" + JSON.stringify(payload, null, 4));
 }
 </script>
 
