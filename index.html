@@ -119,11 +119,12 @@
             border: 2px solid #7A00FF;
         }
 
+        /* FIXED: NO SCROLLBAR */
         .modeBlock {
             display: flex;
             gap: 12px;
-            flex-wrap: nowrap;
-            overflow-x: auto;
+            flex-wrap: wrap;      /* wrap instead of scroll */
+            overflow: hidden;     /* no scrollbar */
             padding-left: 20px;
         }
 
