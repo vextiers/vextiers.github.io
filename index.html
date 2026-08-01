@@ -58,7 +58,6 @@
             box-shadow: 0 0 25px #7A00FFAA;
         }
 
-        /* PNG ICONS */
         .modeIcon {
             width: 48px;
             height: 48px;
@@ -129,11 +128,20 @@
 
         .modeTag {
             background: #222;
-            padding: 12px 18px;
+            padding: 10px 14px;
             border-radius: 10px;
             border: 1px solid #7A00FF;
             font-size: 20px;
             white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modeTagIcon {
+            width: 32px;
+            height: 32px;
+            image-rendering: pixelated;
         }
     </style>
 </head>
@@ -292,12 +300,18 @@ function loadRankings(selectedMode = "overall") {
                     modeDisplay = Object.entries(p.modes)
                         .filter(([mode, tier]) => tier !== null)
                         .map(([mode, tier]) => `
-                            <div class="modeTag">${mode}: ${tier}</div>
+                            <div class="modeTag">
+                                <img class="modeTagIcon" src="icons/${mode}.png">
+                                ${tier}
+                            </div>
                         `)
                         .join("");
                 } else {
                     modeDisplay = `
-                        <div class="modeTag">${selectedMode}: ${p.modes[selectedMode]}</div>
+                        <div class="modeTag">
+                            <img class="modeTagIcon" src="icons/${selectedMode}.png">
+                            ${p.modes[selectedMode]}
+                        </div>
                     `;
                 }
 
