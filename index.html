@@ -13,31 +13,31 @@
             padding: 0;
         }
 
-        /* HEADER — higher + tighter */
+        /* HEADER — extremely tight */
         header {
             text-align: center;
-            padding: 5px 0;
+            padding: 0;
             background: #0f0f0f;
             position: relative;
             z-index: 2;
         }
 
-        /* VEXTIERS LOGO — BIGGER + HIGHER */
+        /* VEXTIERS LOGO — EVEN BIGGER + HIGHER */
         .vexLogo {
-            width: 320px; /* BIGGER */
+            width: 360px; /* EVEN BIGGER */
             height: auto;
             image-rendering: pixelated;
             filter: none;
-            margin-top: -25px; /* pushes it higher */
+            margin-top: -35px; /* pushes it WAY higher */
             position: relative;
             z-index: 3;
         }
 
-        /* MODE BAR — OVERLAPS LOGO */
+        /* MODE BAR — OVERLAPS DEEPER */
         .modeBar {
             width: 100%;
             display: flex;
-            margin-top: -45px; /* OVERLAP amount */
+            margin-top: -70px; /* DEEP overlap */
             position: relative;
             z-index: 4;
         }
@@ -80,7 +80,7 @@
         /* LEADERBOARD — moved up */
         .leaderboard {
             width: 90%;
-            margin: 25px auto;
+            margin: 10px auto; /* even higher */
         }
 
         .playerRow {
@@ -169,7 +169,7 @@
     <img src="icons/vex.png" alt="VEXTIERS Logo" class="vexLogo">
 </header>
 
-<!-- MODE BAR (overlapping logo) -->
+<!-- MODE BAR (deep overlap) -->
 <div class="modeBar">
     <div class="modeButton" data-mode="overall">
         <img class="modeIcon" src="icons/overall.png">
