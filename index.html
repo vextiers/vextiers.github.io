@@ -27,9 +27,9 @@
             z-index: 3;
         }
 
-        /* MODE BAR — SHRUNK + CENTERED + SIDE LINES */
+        /* MODE BAR — 85% WIDTH + CENTERED */
         .modeBar {
-            width: 80%; /* SHRUNK */
+            width: 85%;
             display: flex;
             margin-top: -140px;
             margin-left: auto;
@@ -38,19 +38,23 @@
             z-index: 10;
         }
 
-        /* SIDE LINES */
-        .modeBar::before,
-        .modeBar::after {
-            content: "";
-            position: absolute;
+        /* SIDE LINES — FIXED + MATCH MODEBAR EDGES */
+        .sideLine {
+            position: fixed;
+            top: calc( -140px + 110px ); /* mode bar bottom */
+            bottom: 0;
             width: 2px;
             background: #7A00FF;
-            top: 100%;
-            bottom: 0;
+            z-index: 1;
         }
 
-        .modeBar::before { left: 0; }
-        .modeBar::after { right: 0; }
+        #leftLine {
+            left: calc(50% - (85% / 2));
+        }
+
+        #rightLine {
+            left: calc(50% + (85% / 2));
+        }
 
         .modeButton {
             flex: 1;
@@ -89,10 +93,10 @@
 
         /* LEADERBOARD — SCROLLS INDEPENDENTLY */
         .leaderboard {
-            width: 80%; /* matches mode bar width */
+            width: 85%;
             margin: 40px auto;
-            height: calc(100vh - 200px); /* fits under buttons */
-            overflow-y: auto; /* ONLY THIS SCROLLS */
+            height: calc(100vh - 200px);
+            overflow-y: auto;
             padding-right: 10px;
             position: relative;
             z-index: 1; /* scrolls BEHIND mode bar */
@@ -190,6 +194,10 @@
 
 <!-- LOGO -->
 <img src="icons/vex.png" alt="VEXTIERS Logo" class="vexLogo">
+
+<!-- SIDE LINES -->
+<div id="leftLine" class="sideLine"></div>
+<div id="rightLine" class="sideLine"></div>
 
 <!-- MODE BAR -->
 <div class="modeBar">
