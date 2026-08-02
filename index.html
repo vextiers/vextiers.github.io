@@ -13,31 +13,24 @@
             padding: 0;
         }
 
-        /* HEADER — ultra tight */
-        header {
-            text-align: center;
-            padding: 0;
-            background: #0f0f0f;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* VEXTIERS LOGO — 1.5x bigger + higher */
+        /* LOGO — touching top with tiny gap */
         .vexLogo {
-            width: 540px; /* HUGE 1.5x */
+            width: 540px; /* 1.5x size */
             height: auto;
             image-rendering: pixelated;
-            filter: none;
-            margin-top: -60px; /* pushes WAY higher */
+            margin-top: 2px; /* tiny breathing space */
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
             position: relative;
             z-index: 3;
         }
 
-        /* MODE BAR — extreme overlap */
+        /* MODE BAR — VERY close to logo */
         .modeBar {
             width: 100%;
             display: flex;
-            margin-top: -120px; /* DEEP overlap into transparent PNG area */
+            margin-top: -135px; /* almost touching (5–10px gap) */
             position: relative;
             z-index: 4;
         }
@@ -80,7 +73,7 @@
         /* LEADERBOARD — pulled up */
         .leaderboard {
             width: 90%;
-            margin: 5px auto; /* even higher */
+            margin: 5px auto;
         }
 
         .playerRow {
@@ -165,11 +158,10 @@
 
 <body>
 
-<header>
-    <img src="icons/vex.png" alt="VEXTIERS Logo" class="vexLogo">
-</header>
+<!-- LOGO -->
+<img src="icons/vex.png" alt="VEXTIERS Logo" class="vexLogo">
 
-<!-- MODE BAR (deep overlap) -->
+<!-- MODE BAR -->
 <div class="modeBar">
     <div class="modeButton" data-mode="overall">
         <img class="modeIcon" src="icons/overall.png">
