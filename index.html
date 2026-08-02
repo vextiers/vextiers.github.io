@@ -38,20 +38,22 @@
             z-index: 10;
         }
 
-        /* SIDE LINES — FIXED + MATCH MODEBAR EDGES */
+        /* SIDE LINES — start at bottom of mode bar, go down only */
         .sideLine {
             position: fixed;
-            top: calc( -140px + 110px ); /* mode bar bottom */
+            top: calc(-140px + 110px); /* bottom of mode bar */
             bottom: 0;
             width: 2px;
             background: #7A00FF;
             z-index: 1;
         }
 
+        /* left line aligned with left edge of mode bar */
         #leftLine {
             left: calc(50% - (85% / 2));
         }
 
+        /* right line aligned with right edge of mode bar */
         #rightLine {
             left: calc(50% + (85% / 2));
         }
@@ -91,10 +93,10 @@
             text-align: center;
         }
 
-        /* LEADERBOARD — SCROLLS INDEPENDENTLY */
+        /* LEADERBOARD — centered again, width unchanged */
         .leaderboard {
-            width: 85%;
-            margin: 40px auto;
+            width: 90%; /* original width restored */
+            margin: 40px auto; /* centered */
             height: calc(100vh - 200px);
             overflow-y: auto;
             padding-right: 10px;
