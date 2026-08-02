@@ -11,6 +11,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            overflow: hidden; /* PAGE DOES NOT SCROLL */
         }
 
         /* LOGO — stays at perfect height */
@@ -18,7 +19,7 @@
             width: 500px;
             height: auto;
             image-rendering: pixelated;
-            margin-top: -160px; /* DO NOT CHANGE — YOU SAID THIS WAS PERFECT */
+            margin-top: -160px;
             display: block;
             margin-left: auto;
             margin-right: auto;
@@ -26,14 +27,30 @@
             z-index: 3;
         }
 
-        /* MODE BAR — moved DOWN a LOT */
+        /* MODE BAR — SHRUNK + CENTERED + SIDE LINES */
         .modeBar {
-            width: 100%;
+            width: 80%; /* SHRUNK */
             display: flex;
-            margin-top: -140px; /* LOWERED SIGNIFICANTLY */
+            margin-top: -140px;
+            margin-left: auto;
+            margin-right: auto;
             position: relative;
-            z-index: 4;
+            z-index: 10;
         }
+
+        /* SIDE LINES */
+        .modeBar::before,
+        .modeBar::after {
+            content: "";
+            position: absolute;
+            width: 2px;
+            background: #7A00FF;
+            top: 100%;
+            bottom: 0;
+        }
+
+        .modeBar::before { left: 0; }
+        .modeBar::after { right: 0; }
 
         .modeButton {
             flex: 1;
@@ -70,10 +87,23 @@
             text-align: center;
         }
 
-        /* LEADERBOARD — FIXED */
+        /* LEADERBOARD — SCROLLS INDEPENDENTLY */
         .leaderboard {
-            width: 90%;
-            margin: 40px auto; /* CLEAN SPACING */
+            width: 80%; /* matches mode bar width */
+            margin: 40px auto;
+            height: calc(100vh - 200px); /* fits under buttons */
+            overflow-y: auto; /* ONLY THIS SCROLLS */
+            padding-right: 10px;
+            position: relative;
+            z-index: 1; /* scrolls BEHIND mode bar */
+        }
+
+        .leaderboard::-webkit-scrollbar {
+            width: 10px;
+        }
+        .leaderboard::-webkit-scrollbar-thumb {
+            background: #7A00FF;
+            border-radius: 10px;
         }
 
         .playerRow {
