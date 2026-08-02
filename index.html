@@ -13,12 +13,12 @@
             padding: 0;
         }
 
-        /* LOGO — touching top with tiny gap, moved UP HARD */
+        /* LOGO — moved WAY up */
         .vexLogo {
             width: 540px;
             height: auto;
             image-rendering: pixelated;
-            margin-top: -80px; /* DOUBLED UPWARD FORCE */
+            margin-top: -140px; /* HUGE upward shift */
             display: block;
             margin-left: auto;
             margin-right: auto;
@@ -26,11 +26,11 @@
             z-index: 3;
         }
 
-        /* MODE BAR — VERY close to logo, moved UP HARDER */
+        /* MODE BAR — moved slightly DOWN so it doesn't overlap logo */
         .modeBar {
             width: 100%;
             display: flex;
-            margin-top: -320px; /* DOUBLED NEGATIVE — MASSIVE UPWARD SHIFT */
+            margin-top: -260px; /* still high, but no overlap */
             position: relative;
             z-index: 4;
         }
@@ -70,10 +70,10 @@
             text-align: center;
         }
 
-        /* LEADERBOARD — moved up */
+        /* LEADERBOARD — FIXED so it no longer overlaps buttons */
         .leaderboard {
             width: 90%;
-            margin: -40px auto; /* DOUBLED UPWARD SHIFT */
+            margin: 20px auto; /* clean spacing */
         }
 
         .playerRow {
