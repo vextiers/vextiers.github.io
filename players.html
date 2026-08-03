@@ -2,196 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VEXTIERS — Global Rankings</title>
-
-    <style>
-        body {
-            background: #0a0a0a;
-            color: #e0e0e0;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        header {
-            text-align: center;
-            padding: 40px 20px;
-            border-bottom: 3px solid #7A00FF;
-            box-shadow: 0 0 25px #7A00FF55;
-            background: #0f0f0f;
-        }
-
-        h1 {
-            font-size: 48px;
-            color: #7A00FF;
-            text-shadow: 0 0 18px #7A00FF;
-            letter-spacing: 2px;
-        }
-
-        .leaderboard {
-            width: 90%;
-            margin: 40px auto;
-        }
-
-        .playerRow {
-            display: flex;
-            align-items: center;
-            background: #111;
-            padding: 15px;
-            margin-bottom: 12px;
-            border-radius: 10px;
-            border: 2px solid #7A00FF;
-            box-shadow: 0 0 20px #7A00FF55;
-        }
-
-        .rank {
-            width: 60px;
-            font-size: 28px;
-            font-weight: bold;
-            color: #7A00FF;
-            text-shadow: 0 0 10px #7A00FF;
-            text-align: center;
-        }
-
-        .nameBlock {
-            flex: 1;
-            padding-left: 20px;
-        }
-
-        .nameBlock .playerName {
-            font-size: 24px;
-            font-weight: bold;
-            color: #e0e0e0;
-        }
-
-        .nameBlock .overallTier {
-            font-size: 18px;
-            color: #7A00FF;
-        }
-
-        .modeBlock {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            max-width: 500px;
-        }
-
-        .modeTag {
-            background: #222;
-            padding: 6px 12px;
-            border-radius: 6px;
-            border: 1px solid #7A00FF;
-            font-size: 14px;
-        }
-    </style>
+    <title>VEX TIERS – Players</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <h1>Players</h1>
 
-<header>
-    <h1>VEXTIERS — Global Rankings</h1>
-</header>
+    <div id="players"></div>
 
-<div class="leaderboard" id="leaderboard"></div>
+    <script>
+        async function loadPlayers() {
+            const response = await fetch("players.json");
+            const players = await response.json();
 
-<script>
-// Convert tier label → number
-function tierToNumber(tier) {
-    const map = {
-        "HT1": 10,
-        "HT2": 9,
-        "HT3": 8,
-        "LT1": 7,
-        "LT2": 6,
-        "LT3": 5,
-        "LT4": 4,
-        "LT5": 3
-    };
-    return map[tier] || null;
-}
+            const container = document.getElementById("players");
+            container.innerHTML = "";
 
-// Convert number → tier label
-function numberToTier(num) {
-    const map = {
-        10: "HT1",
-        9: "HT2",
-        8: "HT3",
-        7: "LT1",
-        6: "LT2",
-        5: "LT3",
-        4: "LT4",
-        3: "LT5"
-    };
-    return map[num] || "Unknown";
-}
+            players.forEach(player => {
+                const card = document.createElement("div");
+                card.className = "player-card";
 
-// Calculate average tier score
-function calculateAverageTier(modes) {
-    let total = 0;
-    let count = 0;
+                const name = document.createElement("h2");
+                name.textContent = player.name;
+                card.appendChild(name);
 
-    for (const mode in modes) {
-        if (modes[mode] !== null) {
-            const num = tierToNumber(modes[mode]);
-            if (num !== null) {
-                total += num;
-                count++;
-            }
+                const modes = player.modes;
+                const list = document.createElement("ul");
+
+                Object.entries(modes).forEach(([mode, tier]) => {
+                    const item = document.createElement("li");
+                    item.textContent = `${mode}: ${tier === null ? "—" : tier}`;
+                    list.appendChild(item);
+                });
+
+                card.appendChild(list);
+                container.appendChild(card);
+            });
         }
-    }
 
-    return { total, count };
-}
-
-fetch("players.json")
-    .then(res => res.json())
-    .then(players => {
-
-        players.forEach(p => {
-            const { total, count } = calculateAverageTier(p.modes);
-
-            p.testedModes = count;
-            p.averageTierScore = count > 0 ? total / count : 0;
-            p.overallTier = numberToTier(Math.round(p.averageTierScore));
-        });
-
-        // GLOBAL RANKING SYSTEM:
-        // 1. More tested modes = higher rank
-        // 2. Higher average tier score = higher rank
-        players.sort((a, b) => {
-            if (b.testedModes !== a.testedModes) {
-                return b.testedModes - a.testedModes;
-            }
-            return b.averageTierScore - a.averageTierScore;
-        });
-
-        const board = document.getElementById("leaderboard");
-
-        players.forEach((p, index) => {
-            const row = document.createElement("div");
-            row.className = "playerRow";
-
-            row.innerHTML = `
-                <div class="rank">#${index + 1}</div>
-
-                <div class="nameBlock">
-                    <div class="playerName">${p.name}</div>
-                    <div class="overallTier">Overall Tier: ${p.overallTier}</div>
-                </div>
-
-                <div class="modeBlock">
-                    ${Object.entries(p.modes)
-                        .map(([mode, tier]) => `
-                            <div class="modeTag">${mode}: ${tier ?? "N/A"}</div>
-                        `)
-                        .join("")}
-                </div>
-            `;
-
-            board.appendChild(row);
-        });
-    });
-</script>
-
+        loadPlayers();
+    </script>
 </body>
 </html>

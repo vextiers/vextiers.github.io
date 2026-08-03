@@ -2,394 +2,100 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VEXTIERS — Home</title>
-
-    <style>
-        body {
-            background: #0a0a0a;
-            color: #e0e0e0;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            overflow: hidden; /* PAGE DOES NOT SCROLL */
-        }
-
-        /* LOGO — stays at perfect height */
-        .vexLogo {
-            width: 500px;
-            height: auto;
-            image-rendering: pixelated;
-            margin-top: -160px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-            z-index: 3;
-        }
-
-        /* MODE BAR — 85% WIDTH + CENTERED */
-        .modeBar {
-            width: 85%;
-            display: flex;
-            margin-top: -140px;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-            z-index: 10;
-        }
-
-       /* SIDE LINES — start at bottom of mode bar, go down only */
-.sideLine {
-    position: fixed;
-    top: calc(var(--modebar-top) + 110px); /* bottom of mode bar */
-    bottom: 0;
-    width: 2px;
-    background: #7A00FF;
-    z-index: 1;
-}
-
-/* left line aligned with left edge of mode bar */
-#leftLine {
-    left: calc(50% - (85% / 2));
-}
-
-/* right line aligned with right edge of mode bar */
-#rightLine {
-    left: calc(50% + (85% / 2));
-}
-
-
-        .modeButton {
-            flex: 1;
-            height: 110px;
-            background: #111;
-            border: 2px solid #7A00FF;
-            border-bottom: 2px solid #7A00FF;
-            border-radius: 18px 18px 0 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            cursor: pointer;
-            padding-bottom: 8px;
-            transition: 0.15s;
-        }
-
-        .modeButton:hover,
-        .modeButton.active {
-            background: #1a1a1a;
-            box-shadow: 0 0 25px #7A00FFAA;
-        }
-
-        .modeIcon {
-            height: 46px;
-            width: auto;
-            margin-bottom: 4px;
-            image-rendering: pixelated;
-        }
-
-        .modeText {
-            font-size: 18px;
-            color: #e0e0e0;
-            text-align: center;
-        }
-
-        /* LEADERBOARD — centered again, width unchanged */
-        .leaderboard {
-            width: 80%; /* original width restored */
-            margin: 40px auto; /* centered */
-            height: calc(100vh - 200px);
-            overflow-y: auto;
-            padding-right: 10px;
-            position: relative;
-            z-index: 1; /* scrolls BEHIND mode bar */
-        }
-
-        .leaderboard::-webkit-scrollbar {
-            width: 10px;
-        }
-        .leaderboard::-webkit-scrollbar-thumb {
-            background: #7A00FF;
-            border-radius: 10px;
-        }
-
-        .playerRow {
-            display: flex;
-            align-items: center;
-            background: #111;
-            padding: 24px;
-            margin-bottom: 18px;
-            border-radius: 14px;
-            border: 2px solid #7A00FF;
-            box-shadow: 0 0 28px #7A00FF55;
-        }
-
-        .rank {
-            width: 70px;
-            font-size: 34px;
-            font-weight: bold;
-            color: #7A00FF;
-            text-shadow: 0 0 12px #7A00FF;
-            text-align: center;
-        }
-
-        .nameBlock {
-            flex: 1;
-            padding-left: 20px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .playerName {
-            font-size: 30px;
-            font-weight: bold;
-        }
-
-        .skinHead {
-            width: 60px;
-            height: 60px;
-            border-radius: 8px;
-            image-rendering: pixelated;
-            box-shadow: 0 0 12px #7A00FFAA;
-            border: 2px solid #7A00FF;
-        }
-
-        .modeBlock {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            overflow: hidden;
-            padding-left: 15px;
-        }
-
-        .modeTag {
-            width: 65px;
-            height: 65px;
-            background: #222;
-            border-radius: 10px;
-            border: 1px solid #7A00FF;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 6px;
-            box-sizing: border-box;
-            text-align: center;
-        }
-
-        .modeTagIcon {
-            height: 26px;
-            width: auto;
-            image-rendering: pixelated;
-            margin-bottom: 4px;
-        }
-
-        .modeTagText {
-            font-size: 15px;
-            color: #e0e0e0;
-            line-height: 1;
-        }
-    </style>
+    <title>VEX TIERS</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <h1>VEX TIERS</h1>
 
-<!-- LOGO -->
-<img src="icons/vex.png" alt="VEXTIERS Logo" class="vexLogo">
+    <div class="mode-buttons">
 
-<!-- SIDE LINES -->
-<div id="leftLine" class="sideLine"></div>
-<div id="rightLine" class="sideLine"></div>
+        <button onclick="selectMode('crystal')">
+            <img src="icons/crystal.png" class="icon">
+            Crystal
+        </button>
 
-<!-- MODE BAR -->
-<div class="modeBar">
-    <div class="modeButton" data-mode="overall">
-        <img class="modeIcon" src="icons/overall.png">
-        <div class="modeText">Overall</div>
+        <button onclick="selectMode('mace')">
+            <img src="icons/mace.png" class="icon">
+            Mace
+        </button>
+
+        <button onclick="selectMode('spearmace')">
+            <img src="icons/spearmace.png" class="icon">
+            Spear Mace
+        </button>
+
+        <button onclick="selectMode('diamond_pot')">
+            <img src="icons/diamond_pot.png" class="icon">
+            Diamond Pot
+        </button>
+
+        <button onclick="selectMode('netherite_pot')">
+            <img src="icons/netherite_pot.png" class="icon">
+            Netherite Pot
+        </button>
+
+        <button onclick="selectMode('uhc')">
+            <img src="icons/uhc.png" class="icon">
+            UHC
+        </button>
+
+        <button onclick="selectMode('smp')">
+            <img src="icons/smp.png" class="icon">
+            SMP
+        </button>
+
+        <button onclick="selectMode('sword')">
+            <img src="icons/sword.png" class="icon">
+            Sword
+        </button>
+
+        <button onclick="selectMode('axe')">
+            <img src="icons/axe.png" class="icon">
+            Axe
+        </button>
+
     </div>
 
-    <div class="modeButton" data-mode="crystal">
-        <img class="modeIcon" src="icons/crystal.png">
-        <div class="modeText">Crystal</div>
-    </div>
+    <div id="leaderboard"></div>
 
-    <div class="modeButton" data-mode="mace">
-        <img class="modeIcon" src="icons/mace.png">
-        <div class="modeText">Mace</div>
-    </div>
+    <script>
+        let currentMode = null;
 
-    <div class="modeButton" data-mode="sword">
-        <img class="modeIcon" src="icons/sword.png">
-        <div class="modeText">Sword</div>
-    </div>
-
-    <div class="modeButton" data-mode="axe">
-        <img class="modeIcon" src="icons/axe.png">
-        <div class="modeText">Axe</div>
-    </div>
-
-    <div class="modeButton" data-mode="uhc">
-        <img class="modeIcon" src="icons/uhc.png">
-        <div class="modeText">UHC</div>
-    </div>
-
-    <div class="modeButton" data-mode="smp">
-        <img class="modeIcon" src="icons/smp.png">
-        <div class="modeText">SMP</div>
-    </div>
-
-    <div class="modeButton" data-mode="diamond_pot">
-        <img class="modeIcon" src="icons/pot.png">
-        <div class="modeText">Pot</div>
-    </div>
-
-    <div class="modeButton" data-mode="netherite_pot">
-        <img class="modeIcon" src="icons/neth_pot.png">
-        <div class="modeText">Neth Pot</div>
-    </div>
-</div>
-
-<div class="leaderboard" id="leaderboard"></div>
-
-<script>
-function tierToNumber(tier) {
-    const map = {
-        "LT5": 1, "HT5": 2,
-        "LT4": 3, "HT4": 4,
-        "LT3": 5, "HT3": 6,
-        "LT2": 7, "HT2": 8,
-        "LT1": 9, "HT1": 10
-    };
-    return map[tier] || null;
-}
-
-function numberToTier(num) {
-    const map = {
-        1: "LT5", 2: "HT5",
-        3: "LT4", 4: "HT4",
-        5: "LT3", 6: "HT3",
-        7: "LT2", 8: "HT2",
-        9: "LT1", 10: "HT1"
-    };
-    return map[num] || "Unknown";
-}
-
-function calculateAverageTier(modes) {
-    let total = 0;
-    let count = 0;
-
-    for (const mode in modes) {
-        if (modes[mode] !== null) {
-            const num = tierToNumber(modes[mode]);
-            if (num !== null) {
-                total += num;
-                count++;
-            }
+        function selectMode(mode) {
+            currentMode = mode;
+            loadLeaderboard();
         }
-    }
 
-    return { total, count };
-}
+        async function loadLeaderboard() {
+            if (!currentMode) return;
 
-function getSkinURL(player) {
-    return `https://mc-heads.net/avatar/${encodeURIComponent(player.name)}/64`;
-}
+            const response = await fetch("players.json");
+            const players = await response.json();
 
-function loadRankings(selectedMode = "overall") {
-    document.querySelectorAll('.modeButton').forEach(btn => {
-        btn.classList.remove("active");
-        if (btn.dataset.mode === selectedMode) {
-            btn.classList.add("active");
+            const container = document.getElementById("leaderboard");
+            container.innerHTML = "";
+
+            players.forEach(player => {
+                const tier = player.modes[currentMode];
+
+                const card = document.createElement("div");
+                card.className = "player-card";
+
+                const icon = document.createElement("img");
+                icon.className = "icon tier-" + (tier || "none");
+                icon.src = "icons/" + currentMode + ".png";
+
+                const name = document.createElement("span");
+                name.textContent = `${player.name} — ${tier || "—"}`;
+
+                card.appendChild(icon);
+                card.appendChild(name);
+                container.appendChild(card);
+            });
         }
-    });
-
-    fetch("players.json")
-        .then(res => res.json())
-        .then(players => {
-
-            players.forEach(p => {
-                const { total, count } = calculateAverageTier(p.modes);
-                p.testedModes = count;
-                p.averageTierScore = count > 0 ? total / count : 0;
-                p.overallTier = numberToTier(Math.round(p.averageTierScore));
-            });
-
-            let filtered;
-
-            if (selectedMode !== "overall") {
-                filtered = players.filter(p => p.modes[selectedMode] !== null);
-            } else {
-                filtered = players.filter(p => p.testedModes > 0);
-            }
-
-            filtered.sort((a, b) => {
-                if (selectedMode !== "overall") {
-                    return tierToNumber(b.modes[selectedMode]) - tierToNumber(a.modes[selectedMode]);
-                } else {
-                    if (b.testedModes !== a.testedModes) {
-                        return b.testedModes - a.testedModes;
-                    }
-                    return b.averageTierScore - a.averageTierScore;
-                }
-            });
-
-            const board = document.getElementById("leaderboard");
-            board.innerHTML = "";
-
-            filtered.forEach((p, index) => {
-                const row = document.createElement("div");
-                row.className = "playerRow";
-
-                const skinURL = getSkinURL(p);
-
-                let modeDisplay = "";
-
-                if (selectedMode === "overall") {
-                    modeDisplay = Object.entries(p.modes)
-                        .filter(([mode, tier]) => tier !== null)
-                        .map(([mode, tier]) => `
-                            <div class="modeTag">
-                                <img class="modeTagIcon" src="icons/${mode}.png">
-                                <div class="modeTagText">${tier}</div>
-                            </div>
-                        `)
-                        .join("");
-                } else {
-                    modeDisplay = `
-                        <div class="modeTag">
-                            <img class="modeTagIcon" src="icons/${selectedMode}.png">
-                            <div class="modeTagText">${p.modes[selectedMode]}</div>
-                        </div>
-                    `;
-                }
-
-                row.innerHTML = `
-                    <div class="rank">#${index + 1}</div>
-
-                    <div class="nameBlock">
-                        <img class="skinHead" src="${skinURL}" alt="${p.name}">
-                        <div class="playerName">${p.name}</div>
-                    </div>
-
-                    <div class="modeBlock">
-                        ${modeDisplay}
-                    </div>
-                `;
-
-                board.appendChild(row);
-            });
-        });
-}
-
-document.querySelectorAll('.modeButton').forEach(btn => {
-    btn.addEventListener('click', () => {
-        loadRankings(btn.dataset.mode);
-    });
-});
-
-loadRankings();
-</script>
+    </script>
 
 </body>
 </html>
